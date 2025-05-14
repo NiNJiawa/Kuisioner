@@ -9,14 +9,26 @@ use App\Models\QuestionResponse;
 use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class QuestionnaireController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $questions = Question::with('passions')->get();
         $options = Option::all();
-        return view('questionnaire.index', compact('questions', 'options'));
+
+        // Ambil jawaban sementara dari cookie
+        $savedResponses = json_decode($request->cookie('temp_responses'), true) ?? [];
+
+        return view('questionnaire.index', compact('questions', 'options', 'savedResponses'));
+    }
+
+    public function saveTemp(Request $request)
+    {
+        $responses = $request->input('responses', []);
+        Cookie::queue('temp_responses', json_encode($responses), 60); // Simpan selama 60 menit
+        return response()->json(['status' => 'saved']);
     }
 
     public function store(Request $request)
@@ -30,9 +42,12 @@ class QuestionnaireController extends Controller
             );
         }
 
+        // Hapus cookie setelah data dikirim
+        Cookie::queue(Cookie::forget('temp_responses'));
+
         $this->calculateScores($user->id);
 
-        return redirect()->route('questionnaire.result')->with('success', 'Jawaban berhasil disimpan.'); return redirect()->back()->with('submitted', true);
+        return redirect()->route('questionnaire.result')->with('success', 'Jawaban berhasil disimpan.');
     }
 
     public function result()

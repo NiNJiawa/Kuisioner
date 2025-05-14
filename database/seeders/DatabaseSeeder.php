@@ -23,6 +23,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password123'),
         ]);
 
+        User::create([
+            'name' => 'Najwa',
+            'username' => 'najwa',
+            'phone' => '08123456789',
+            'password' => Hash::make('password12'),
+        ]);
+
         $this->call([
             OptionsTableSeeder::class,
             PassionsTableSeeder::class,
