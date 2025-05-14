@@ -18,7 +18,7 @@ class QuestionnaireController extends Controller
         $questions = Question::with('passions')->get();
         $options = Option::all();
 
-        // Ambil jawaban sementara dari cookie
+        // Ambil jawaban sementara dari cookie jika ada
         $savedResponses = json_decode($request->cookie('temp_responses'), true) ?? [];
 
         return view('questionnaire.index', compact('questions', 'options', 'savedResponses'));
@@ -33,22 +33,28 @@ class QuestionnaireController extends Controller
 
     public function store(Request $request)
     {
+        $responses = $request->input('responses');
+
+        if (!$responses || count($responses) === 0) {
+            return redirect()->back()->withErrors(['message' => 'Silakan jawab semua pertanyaan.']);
+        }
+
         $user = Auth::user();
 
-        foreach ($request->input('responses') as $question_id => $option_id) {
+        foreach ($responses as $question_id => $option_id) {
             QuestionResponse::updateOrCreate(
                 ['user_id' => $user->id, 'question_id' => $question_id],
                 ['option_id' => $option_id]
             );
         }
 
-        // Hapus cookie setelah data dikirim
         Cookie::queue(Cookie::forget('temp_responses'));
 
         $this->calculateScores($user->id);
 
         return redirect()->route('questionnaire.result')->with('success', 'Jawaban berhasil disimpan.');
     }
+
 
     public function result()
     {

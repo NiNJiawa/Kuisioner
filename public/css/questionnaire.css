@@ -1,0 +1,189 @@
+:root {
+    --primary: #6a11cb;
+    --primary-dark: #2575fc;
+    --success: #00c896;
+    --danger: #ff4d4f;
+    --light-bg: #f1f3f5;
+}
+
+.questionnaire-wrapper {
+    max-width: 750px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.question-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: none;
+}
+
+.question-card.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-check-input[type="radio"] {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin: 0.5rem;
+    border: 2px solid #ccc;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.option-label {
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.instruction-box {
+    background: var(--light-bg);
+    border-left: 5px solid var(--primary);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.btn-nav {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.nav-buttons button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #e0e0e0;
+    font-weight: bold;
+    color: #333;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-buttons button.active {
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    color: white;
+}
+
+.nav-buttons button.answered {
+    background-color: var(--success);
+    color: white;
+}
+
+.nav-buttons button:hover {
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.btn-submit {
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    border: none;
+    padding: 0.8rem 1rem;
+    color: #fff;
+    font-size: 1.1rem;
+    border-radius: 0.6rem;
+    width: 100%;
+    transition: 0.3s ease;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--danger);
+}
+
+.modal-footer {
+    margin-top: 1.5rem;
+}
+
+.modal-button {
+    background-color: var(--danger);
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.modal-button:hover {
+    opacity: 0.85;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
