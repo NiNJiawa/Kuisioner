@@ -23,8 +23,16 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/questionnaire');
+        
+            $user = Auth::user();
+        
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.index');
+            } else {
+                return redirect()->route('questionnaire.index');
+            }
         }
+        
 
         return back()->withErrors([
             'username' => 'Username atau password salah.',
